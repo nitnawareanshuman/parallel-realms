@@ -16,6 +16,7 @@ public:
     Player(sf::Vector2f spawn, sf::Color color, PlayerControls controls);
 
     void update(float deltaSeconds, const Level& level, bool doorOpen);
+    void move(sf::Vector2f direction, float deltaSeconds, const Level& level, bool doorOpen);
     void draw(sf::RenderWindow& window) const;
     void reset(sf::Vector2f spawn);
 
@@ -29,5 +30,4 @@ private:
     sf::Color color_;
     PlayerControls controls_;
 };
-
 

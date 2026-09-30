@@ -7,6 +7,7 @@
 #include <thread>
 #include <vector>
 
+
 struct HazardSnapshot {
     sf::Vector2f position;
     float radius;
@@ -40,5 +41,4 @@ private:
     std::atomic<bool> running_{false};
     std::thread simulationThread_;
 };
-
 

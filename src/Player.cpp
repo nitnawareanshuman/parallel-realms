@@ -24,6 +24,10 @@ void Player::update(float deltaSeconds, const Level& level, bool doorOpen) {
         direction.x += 1.f;
     }
 
+    move(direction, deltaSeconds, level, doorOpen);
+}
+
+void Player::move(sf::Vector2f direction, float deltaSeconds, const Level& level, bool doorOpen) {
     const float length =
         std::sqrt(direction.x * direction.x + direction.y * direction.y);
     if (length > 0.f) {

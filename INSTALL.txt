@@ -1,0 +1,18 @@
+Merge these files into your existing project, preserving paths. Replace only the included files; retain the other files in src/ and docs/.
+
+Modified files:
+CMakeLists.txt
+README.md
+docs/ARCHITECTURE.md
+docs/TESTING.md
+src/Game.cpp
+src/Network.cpp
+
+From the project root:
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DBUILD_TESTING=OFF
+cmake --build build --parallel
+
+Tests are optional and disabled by default. If a cached BUILD_TESTING=ON is present but tests/tests.cpp is absent, the test target is skipped with a warning.
+
+Milestone labels were removed from the application and documentation.
+Verification: the CMake test-configuration section successfully configured without a tests folder both with its default and with BUILD_TESTING=ON. This update was not rebuilt on macOS.

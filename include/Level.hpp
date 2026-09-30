@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+
 class Level {
 public:
     Level(std::vector<std::string> tiles, sf::Vector2f origin);
@@ -21,5 +22,4 @@ private:
     std::vector<std::string> tiles_;
     sf::Vector2f origin_;
 };
-
 

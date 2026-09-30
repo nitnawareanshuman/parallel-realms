@@ -6,6 +6,7 @@
 
 #include <SFML/Graphics.hpp>
 
+
 class Game {
 public:
     Game();
@@ -40,4 +41,3 @@ private:
     bool playerTwoFinished_{false};
     bool gameWon_{false};
 };
-

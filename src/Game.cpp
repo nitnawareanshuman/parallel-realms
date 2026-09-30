@@ -1,59 +1,19 @@
 #include "Game.hpp"
 
 #include "Constants.hpp"
+#include "Rooms.hpp"
 
 #include <algorithm>
 #include <cmath>
 #include <string>
 #include <vector>
 
-namespace {
-std::vector<std::string> makeLeftRoom() {
-    return {
-        "##############",
-        "#1...........#",
-        "#....####....#",
-        "#............#",
-        "#..S.........#",
-        "#.......###..#",
-        "#............#",
-        "#....####D...#",
-        "#............#",
-        "#..#####.....#",
-        "#............#",
-        "#......###...#",
-        "#..........E.#",
-        "#............#",
-        "##############",
-    };
-}
-
-std::vector<std::string> makeRightRoom() {
-    return {
-        "##############",
-        "#2...........#",
-        "#......###...#",
-        "#............#",
-        "#.........S..#",
-        "#..####......#",
-        "#............#",
-        "#...D####....#",
-        "#............#",
-        "#.....#####..#",
-        "#............#",
-        "#..###.......#",
-        "#.E..........#",
-        "#............#",
-        "##############",
-    };
-}
-} // namespace
 
 Game::Game()
     : window_(sf::VideoMode({Constants::WindowWidth, Constants::WindowHeight}),
-              "Parallel Realms - Day 1"),
-      leftLevel_(makeLeftRoom(), {0.f, 0.f}),
-      rightLevel_(makeRightRoom(),
+              "Parallel Realms"),
+      leftLevel_(Rooms::makeLeftRoom(), {0.f, 0.f}),
+      rightLevel_(Rooms::makeRightRoom(),
                   {Constants::RoomColumns * Constants::TileSize, 0.f}),
       playerOneSpawn_(leftLevel_.spawnPosition('1')),
       playerTwoSpawn_(rightLevel_.spawnPosition('2')),
@@ -202,5 +162,4 @@ void Game::resetPlayers() {
     playerOneFinished_ = false;
     playerTwoFinished_ = false;
 }
-
 
