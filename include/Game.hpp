@@ -6,8 +6,6 @@
 
 #include <SFML/Graphics.hpp>
 
-using namespace sf;
-
 class Game {
 public:
     Game();
@@ -25,12 +23,12 @@ private:
                              const HazardSnapshot& hazard) const;
     void resetPlayers();
 
-    RenderWindow window_;
+    sf::RenderWindow window_;
     Level leftLevel_;
     Level rightLevel_;
 
-    Vector2f playerOneSpawn_;
-    Vector2f playerTwoSpawn_;
+    sf::Vector2f playerOneSpawn_;
+    sf::Vector2f playerTwoSpawn_;
 
     Player playerOne_;
     Player playerTwo_;
@@ -42,3 +40,4 @@ private:
     bool playerTwoFinished_{false};
     bool gameWon_{false};
 };
+

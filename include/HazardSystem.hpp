@@ -7,11 +7,8 @@
 #include <thread>
 #include <vector>
 
-using namespace std;
-using namespace sf;
-
 struct HazardSnapshot {
-    Vector2f position;
+    sf::Vector2f position;
     float radius;
 };
 
@@ -25,12 +22,12 @@ public:
 
     void start();
     void stop();
-    vector<HazardSnapshot> snapshot() const; // Not modify the HazardSystem object
+    std::vector<HazardSnapshot> snapshot() const; // Not modify the HazardSystem object
 
 private:
     struct MovingHazard {
-        Vector2f position;
-        Vector2f velocity;
+        sf::Vector2f position;
+        sf::Vector2f velocity;
         float minX;
         float maxX;
         float radius;
@@ -38,9 +35,10 @@ private:
 
     void simulationLoop();
 
-    mutable mutex mutex_;
-    vector<MovingHazard> hazards_;
-    atomic<bool> running_{false};
-    thread simulationThread_;
+    mutable std::mutex mutex_;
+    std::vector<MovingHazard> hazards_;
+    std::atomic<bool> running_{false};
+    std::thread simulationThread_;
 };
+
 

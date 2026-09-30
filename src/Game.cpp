@@ -7,11 +7,8 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-using namespace sf;
-
 namespace {
-vector<string> makeLeftRoom() {
+std::vector<std::string> makeLeftRoom() {
     return {
         "##############",
         "#1...........#",
@@ -31,7 +28,7 @@ vector<string> makeLeftRoom() {
     };
 }
 
-vector<string> makeRightRoom() {
+std::vector<std::string> makeRightRoom() {
     return {
         "##############",
         "#2...........#",
@@ -53,19 +50,19 @@ vector<string> makeRightRoom() {
 } // namespace
 
 Game::Game()
-    : window_(VideoMode({Constants::WindowWidth, Constants::WindowHeight}),
+    : window_(sf::VideoMode({Constants::WindowWidth, Constants::WindowHeight}),
               "Parallel Realms - Day 1"),
       leftLevel_(makeLeftRoom(), {0.f, 0.f}),
       rightLevel_(makeRightRoom(),
                   {Constants::RoomColumns * Constants::TileSize, 0.f}),
       playerOneSpawn_(leftLevel_.spawnPosition('1')),
       playerTwoSpawn_(rightLevel_.spawnPosition('2')),
-      playerOne_(playerOneSpawn_, Color(66, 153, 225),
-                 {Keyboard::Key::W, Keyboard::Key::S,
-                  Keyboard::Key::A, Keyboard::Key::D}),
-      playerTwo_(playerTwoSpawn_, Color(244, 96, 108),
-                 {Keyboard::Key::Up, Keyboard::Key::Down,
-                  Keyboard::Key::Left, Keyboard::Key::Right}) {
+      playerOne_(playerOneSpawn_, sf::Color(66, 153, 225),
+                 {sf::Keyboard::Key::W, sf::Keyboard::Key::S,
+                  sf::Keyboard::Key::A, sf::Keyboard::Key::D}),
+      playerTwo_(playerTwoSpawn_, sf::Color(244, 96, 108),
+                 {sf::Keyboard::Key::Up, sf::Keyboard::Key::Down,
+                  sf::Keyboard::Key::Left, sf::Keyboard::Key::Right}) {
     window_.setVerticalSyncEnabled(true);
     hazardSystem_.start();
 }
@@ -75,12 +72,12 @@ Game::~Game() {
 }
 
 void Game::run() {
-    Clock clock;
+    sf::Clock clock;
 
     while (window_.isOpen()) {
         processEvents();
         const float deltaSeconds =
-            min(clock.restart().asSeconds(), 1.f / 20.f);
+            std::min(clock.restart().asSeconds(), 1.f / 20.f);
         update(deltaSeconds);
         render();
     }
@@ -88,15 +85,15 @@ void Game::run() {
 
 void Game::processEvents() {
     while (const auto event = window_.pollEvent()) {
-        if (event->is<Event::Closed>()) {
+        if (event->is<sf::Event::Closed>()) {
             window_.close();
         }
 
-        if (const auto* key = event->getIf<Event::KeyPressed>()) {
-            if (key->code == Keyboard::Key::Escape) {
+        if (const auto* key = event->getIf<sf::Event::KeyPressed>()) {
+            if (key->code == sf::Keyboard::Key::Escape) {
                 window_.close();
             }
-            if (key->code == Keyboard::Key::R) {
+            if (key->code == sf::Keyboard::Key::R) {
                 leftSwitchActivated_ = false;
                 rightSwitchActivated_ = false;
                 playerOneFinished_ = false;
@@ -122,16 +119,16 @@ void Game::update(float deltaSeconds) {
 }
 
 void Game::render() {
-    window_.clear(Color(13, 17, 28));
+    window_.clear(sf::Color(13, 17, 28));
     leftLevel_.draw(window_, rightSwitchActivated_);
     rightLevel_.draw(window_, leftSwitchActivated_);
 
     for (const auto& hazard : hazardSystem_.snapshot()) {
-        CircleShape circle(hazard.radius);
+        sf::CircleShape circle(hazard.radius);
         circle.setOrigin({hazard.radius, hazard.radius});
         circle.setPosition(hazard.position);
-        circle.setFillColor(Color(255, 126, 36));
-        circle.setOutlineColor(Color(255, 225, 138));
+        circle.setFillColor(sf::Color(255, 126, 36));
+        circle.setOutlineColor(sf::Color(255, 225, 138));
         circle.setOutlineThickness(2.f);
         window_.draw(circle);
     }
@@ -165,7 +162,7 @@ void Game::updateObjectives() {
 
     gameWon_ = playerOneFinished_ && playerTwoFinished_;
 
-    string title = "Parallel Realms | P1: WASD  P2: Arrows  R: Reset | ";
+    std::string title = "Parallel Realms | P1: WASD  P2: Arrows  R: Reset | ";
     if (gameWon_) {
         title += "BOTH REALMS ESCAPED!";
     } else {
@@ -191,9 +188,9 @@ bool Game::playerTouchesHazard(const Player& player,
     const auto position = player.position();
     const auto size = player.size();
     const float closestX =
-        clamp(hazard.position.x, position.x, position.x + size.x);
+        std::clamp(hazard.position.x, position.x, position.x + size.x);
     const float closestY =
-        clamp(hazard.position.y, position.y, position.y + size.y);
+        std::clamp(hazard.position.y, position.y, position.y + size.y);
     const float deltaX = hazard.position.x - closestX;
     const float deltaY = hazard.position.y - closestY;
     return deltaX * deltaX + deltaY * deltaY < hazard.radius * hazard.radius;
@@ -205,4 +202,5 @@ void Game::resetPlayers() {
     playerOneFinished_ = false;
     playerTwoFinished_ = false;
 }
+
 
